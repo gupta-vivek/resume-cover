@@ -12,6 +12,8 @@ def streamlit_app():
     st.title('Resume + Cover Letter')
     st.subheader('Suggests changes for resume and writes cover letter')
 
+    openai_key = st.text_input('Enter OpenAI Key')
+
     # Resume
     resume_file = st.file_uploader("Upload Resume", type='pdf')
     resume = None
@@ -39,12 +41,12 @@ def streamlit_app():
             st.error('Please add job description!', icon='❗')
         else:
             with st.spinner('Thinking about suggestions...'):
-                changes = resume_changes(resume, job_description, company_add_info, user_add_info)
+                changes = resume_changes(openai_key, resume, job_description, company_add_info, user_add_info)
             st.subheader('Resume suggestions')
             st.write(changes)
 
             with st.spinner('Writing cover letter...'):
-                cover_letter = write_cover_letter(resume, job_description, company_add_info, user_add_info)
+                cover_letter = write_cover_letter(openai_key, resume, job_description, company_add_info, user_add_info)
             st.subheader('Cover letter')
             st.write(cover_letter)
 

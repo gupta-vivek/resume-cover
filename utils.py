@@ -3,17 +3,18 @@ import os
 import openai
 from dotenv import load_dotenv, find_dotenv
 
-_ = load_dotenv(find_dotenv())
-openai.api_key = os.environ['OPENAI_API_KEY']
+# _ = load_dotenv(find_dotenv())
+# openai.api_key = os.environ['OPENAI_API_KEY']
 
 MODEL = "gpt-4"
 
 
-def write_cover_letter(resume: str, job_description: str, comp_add_info: str = "None",
+def write_cover_letter(openai_key: str, resume: str, job_description: str, comp_add_info: str = "None",
                        user_add_info: str = "None") -> str:
     """
     Writes cover letter based on information provided
 
+    :param openai_key: OpenAI Key
     :param resume: Resume
     :param job_description: Job description
     :param comp_add_info: Additional information about the company
@@ -30,6 +31,7 @@ def write_cover_letter(resume: str, job_description: str, comp_add_info: str = "
             company additional information: {comp_add_info}
             user additional information: {user_add_info}
         """
+    openai.api_key = openai_key
 
     result = openai.ChatCompletion.create(
         model=MODEL,
@@ -42,10 +44,12 @@ def write_cover_letter(resume: str, job_description: str, comp_add_info: str = "
     return result
 
 
-def resume_changes(resume: str, job_description: str, comp_add_info: str = "None", user_add_info: str = "None") -> str:
+def resume_changes(openai_key: str, resume: str, job_description: str, comp_add_info: str = "None",
+                   user_add_info: str = "None") -> str:
     """
     Suggest changes for the resume based on information provided
 
+    :param openai_key: OpenAI Key
     :param resume: Resume
     :param job_description: Job description
     :param comp_add_info: Additional information about the company
@@ -64,6 +68,8 @@ def resume_changes(resume: str, job_description: str, comp_add_info: str = "None
             company additional information: {comp_add_info}
             user additional information: {user_add_info}
         """
+
+    openai.api_key = openai_key
 
     result = openai.ChatCompletion.create(
         model=MODEL,
